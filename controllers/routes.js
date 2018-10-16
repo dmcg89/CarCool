@@ -1,4 +1,4 @@
-
+const Blog = require('../models/model.js');
 
 module.exports = function(app, Blog) {
     app.get('/', (request, response) => {
@@ -11,6 +11,8 @@ module.exports = function(app, Blog) {
           });
     });
 
+    // show
+
     app.get('/blogs/view/:id', (req, res) => {
         Blog.findById(req.params.id).then((blog) => {
             res.render('blogs-show', { blog: blog })
@@ -18,6 +20,7 @@ module.exports = function(app, Blog) {
             console.log(err.message);
         })
     });
+
 
 
     app.delete('/blogs/view/:id', function (req, res) {
