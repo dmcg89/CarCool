@@ -19,7 +19,7 @@ module.exports = function(app, Blog) {
         })
     });
 
-    // Delete route in  views/blogs-show.handlebars POST method
+
     app.delete('/blogs/view/:id', function (req, res) {
         console.log("Delete Blog");
         Blog.findByIdAndRemove(req.params.id).then((blog) => {
@@ -36,11 +36,11 @@ module.exports = function(app, Blog) {
         })
     })
 
-    // Create New database object for a blog
+
     app.post('/blogs/view', (req, res) => {
         Blog.create(req.body).then((blog) => {
             console.log(blog);
-            res.redirect(`/blogs/view/${blog._id}`); // redirect to blogs/:id
+            res.redirect(`/blogs/view/${blog._id}`);
         }).catch((err) => {
             console.log(err.message);
         })
@@ -61,7 +61,7 @@ module.exports = function(app, Blog) {
         res.render('blogs-index', {})
     })
 
-    // Route for a new Blog
+
     app.get('/blogs/new', (req, res) => {
         res.render('blogs-new', {});
     })

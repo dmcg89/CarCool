@@ -1,22 +1,22 @@
-<!--views/partials/ride-form.handlebars-->
+<!--views/partials/blog-form.handlebars-->
 
 <fieldset class="container">
-  <legend>New/Edit Ride</legend>
+  <legend>Edit Ride Post</legend>
   <!-- TITLE -->
   <p>
-    <label for="ride-start">Start</label><br>
-    <input id="ride-start" type="text" name="title" value="{{ride.start}}"/>
+    <label for="blog-title">Route (start/finish)</label><br>
+    <input id="blog-route" type="text" name="route" value="{{blog.route}}"/>
   </p>
 
   <!-- Article TITLE -->
   <p>
-    <label for="ride-destination">Destination</label><br>
-    <input id="ride-destination" type="text" name="rideDestination" value="{{ride.destination}}" />
+    <label for="article-title">Date/Time</label><br>
+    <input id="blog-time" type="text" name="time" value="{{blog.time}}" />
   </p>
 
   <!-- DESCRIPTION -->
   <p>
-    <label for="ride-description">Description (date/time)</label><br>
-    <textarea id="ride-description" name="description" rows="10" />{{ride.description}}</textarea>
+    <label for="blog-description">Description</label><br>
+    <textarea id="blog-description" name="description" rows="10" />{{blog.description}}</textarea>
   </p>
 </fieldset>
