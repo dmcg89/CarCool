@@ -1,3 +1,4 @@
+require('dotenv').config()
 const methodOverride = require('method-override');
 var cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')

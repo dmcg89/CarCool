@@ -17,25 +17,18 @@ UserSchema.pre('save', function(next) {
   if ( !this.createdAt ) {
     this.createdAt = now;
   }
-
-  // ENCRYPT PASSWORD
-  const user = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      user.password = hash;
-      next();
-    });
-  });
+next();
 });
 
-
-UserSchema.methods.comparePassword = (password, done) => {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    done(err, isMatch);
-  });
+UserSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcyrpt.genSaltSync(8), null);
 };
+
+UserSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+
+
 
 module.exports = mongoose.model('User', UserSchema);

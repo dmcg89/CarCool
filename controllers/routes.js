@@ -25,17 +25,17 @@ module.exports = function(app, Ride) {
         })
     });
 
-// delete
+    // delete
 
-app.delete('/rides/view/:id', function (req, res) {
-    console.log("Delete Ride");
-    Ride.findByIdAndRemove(req.params.id).then((ride) => {
-        res.redirect('/');
-    }).catch((err) => {
-        console.log(err.message);
+    app.delete('/rides/view/:id', function (req, res) {
+        console.log("Delete Ride");
+        Ride.findByIdAndRemove(req.params.id).then((ride) => {
+            res.redirect('/');
+        }).catch((err) => {
+            console.log(err.message);
+        })
     })
-})
-// edit page
+    // edit page
     app.get('/rides/view/:id/edit', (req, res) => {
         Ride.findById(req.params.id, function(err, ride) {
             res.render('rides-edit', { ride: ride });
@@ -81,6 +81,12 @@ app.delete('/rides/view/:id', function (req, res) {
     app.get('/login', (req, res) =>{
         res.render('login')
     })
+
+    // LOGOUT
+    app.get('/logout', (req, res) => {
+        res.clearCookie('nToken');
+        res.redirect('/');
+    });
 
     // SIGN UP POST
     app.post('/sign-up', (req, res) => {
