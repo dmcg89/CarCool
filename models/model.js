@@ -5,11 +5,11 @@ mongoose.connect(process.env.MONGODB_URI ||'mongodb://localhost/intensive', { us
 
 
 
-const Blog = mongoose.model('Blog', {
+const Ride = mongoose.model('Ride', {
     route: String,
     description: String,
     time: String,
     dropDown: Number,
 });
 
-module.exports = Blog;
+module.exports = Ride;

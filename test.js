@@ -2,27 +2,27 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('./app');
 const should = chai.should();
-const Review = require('./models/model');
+const Rides = require('./models/model');
 
-const sampleReview =     {
-    "title": "Super Sweet Review",
-    "movie-title": "La La Land",
-    "description": "A great review of a lovely movie."
+const sampleRide =     {
+    "route": "route",
+    "description": "description",
+    "time": "time"
 }
 
 chai.use(chaiHttp);
 
-describe('Reviews', ()  => {
+describe('Rides', ()  => {
 
     after(() => {
-        Review.deleteMany({title: 'Super Sweet Review'}).exec((err, blogs) => {
-            console.log(blogs)
-            blogs.remove();
+        Ride.deleteMany({route: 'route'}).exec((err, rides) => {
+            console.log(rides)
+            rides.remove();
         })
     });
 
     // TEST INDEX
-    it('should index ALL reviews on / GET', (done) => {
+    it('should index ALL rides on / GET', (done) => {
         chai.request(server)
         .get('/')
         .end((err, res) => {
@@ -33,9 +33,9 @@ describe('Reviews', ()  => {
     });
 
     // TEST NEW
-    it('should display new form on /reviews/new GET', (done) => {
+    it('should display new form on /rides/new GET', (done) => {
         chai.request(server)
-        .get(`/blogs/new`)
+        .get(`/rides/new`)
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.html
@@ -43,11 +43,11 @@ describe('Reviews', ()  => {
         });
     });
     // TEST SHOW
-    it('should show a SINGLE review on /reviews/<id> GET', (done) => {
-        var review = new Review(sampleReview);
-        review.save((err, data) => {
+    it('should show a SINGLE ride on /rides/<id> GET', (done) => {
+        var ride = new Rides(sampleRide);
+        ride.save((err, data) => {
             chai.request(server)
-            .get(`/blogs/view/${data._id}`)
+            .get(`/rides/view/${ride._id}`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.should.be.html
@@ -56,11 +56,11 @@ describe('Reviews', ()  => {
         });
     });
     // TEST EDIT
-    it('should edit a SINGLE review on /reviews/<id>/edit GET', (done) => {
-        var review = new Review(sampleReview);
-        review.save((err, data) => {
+    it('should edit a SINGLE ride on /rides/<id>/edit GET', (done) => {
+        var ride = new Rides(sampleRide);
+        ride.save((err, data) => {
             chai.request(server)
-            .get(`/blogs/view/${data._id}/edit`)
+            .get(`/rides/view/${ride._id}/edit`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.should.be.html
@@ -69,10 +69,10 @@ describe('Reviews', ()  => {
         });
     });
     // TEST CREATE
-    it('should create a SINGLE review on /reviews POST', (done) => {
+    it('should create a SINGLE ride on /rides POST', (done) => {
         chai.request(server)
-        .post('/blogs/view')
-        .send(sampleReview)
+        .post('/rides/view')
+        .send(sampleRide)
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.html
@@ -81,11 +81,11 @@ describe('Reviews', ()  => {
     });
 
     // TEST UPDATE
-    it('should update a SINGLE review on /reviews/<id> PUT', (done) => {
-        var review = new Review(sampleReview);
-        review.save((err, data)  => {
+    it('should update a SINGLE ride on /rides/<id> PUT', (done) => {
+        var ride = new Ride(sampleRide);
+        ride.save((err, data)  => {
             chai.request(server)
-            .put(`/blogs/view/${data._id}?_method=PUT`)
+            .put(`/rides/view/${ride._id}?_method=PUT`)
             .send({'title': 'Updating the title'})
             .end((err, res) => {
                 res.should.have.status(200);
@@ -96,11 +96,11 @@ describe('Reviews', ()  => {
     });
 
     // TEST DELETE
-    it('should delete a SINGLE review on /reviews/<id> DELETE', (done) => {
-        var review = new Review(sampleReview);
-        review.save((err, data)  => {
+    it('should delete a SINGLE ride on /rides/<id> DELETE', (done) => {
+        var ride = new Ride(sampleRide);
+        ride.save((err, data)  => {
             chai.request(server)
-            .delete(`/blogs/view/${data._id}?_method=DELETE`)
+            .delete(`/rides/view/${ride._id}?_method=DELETE`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.should.be.html

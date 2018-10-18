@@ -1,21 +1,21 @@
-<!-- views/blogs-show.handlebars -->
+<!-- views/rides-show.handlebars -->
 <div class="nice-buttons">
-    <h1>{{blog.route}}</h1>
-    <h2>{{blog.time}}</h2>
-    <p>{{blog.description}}</p>
-    <p>{{blog.dropDown}}</p>
+    <h1>{{ride.route}}</h1>
+    <h2>{{ride.time}}</h2>
+    <p>{{ride.description}}</p>
+    <p>{{ride.dropDown}}</p>
 
 </div>
 
     <p>
-        <form method="GET" action="/blogs/view/{{blog._id}}/edit">
+        <form method="GET" action="/rides/view/{{ride._id}}/edit">
             <button type="submit" class="btn btn-primary btn-sm">Edit</button>
         </form>
     </p>
 
     <!--Delete Button-->
     <p>
-        <form method="POST" action="/blogs/view/{{blog._id}}?_method=DELETE">
+        <form method="POST" action="/rides/view/{{ride._id}}?_method=DELETE">
             <button type="submit" class="btn btn-primary btn-sm">Delete</button>
         </form>
     </p>
@@ -26,7 +26,6 @@
     .nice-buttons {
         margin: auto;
         width: 50%;
-        /* border: 3px solid green; */
         padding: 10px;
     }
 </style>

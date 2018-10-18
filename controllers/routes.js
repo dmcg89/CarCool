@@ -1,73 +1,95 @@
-const Blog = require('../models/model.js');
+const Ride = require('../models/model');
+const User = require('../models/user')
 
-module.exports = function(app, Blog) {
+//index
+
+module.exports = function(app, Ride) {
     app.get('/', (request, response) => {
-        Blog.find()
-          .then(blogs => {
-              response.render('blogs-index', {blogs: blogs});
-          })
-          .catch(err => {
-              console.log(err);
-          });
+        Ride.find()
+        .then(rides => {
+            response.render('rides-index', {rides: rides});
+        })
+        .catch(err => {
+            console.log(err);
+        });
     });
 
     // show
 
-    app.get('/blogs/view/:id', (req, res) => {
-        Blog.findById(req.params.id).then((blog) => {
-            res.render('blogs-show', { blog: blog })
+    app.get('/rides/view/:id', (req, res) => {
+        Ride.findById(req.params.id).then((ride) => {
+            res.render('rides-show', { ride: ride })
         }).catch((err) => {
             console.log(err.message);
         })
     });
 
+// delete
+
+app.delete('/rides/view/:id', function (req, res) {
+    console.log("Delete Ride");
+    Ride.findByIdAndRemove(req.params.id).then((ride) => {
+        res.redirect('/');
+    }).catch((err) => {
+        console.log(err.message);
+    })
+})
+// edit page
+    app.get('/rides/view/:id/edit', (req, res) => {
+        Ride.findById(req.params.id, function(err, ride) {
+            res.render('rides-edit', { ride: ride });
+        })
+    })
 
 
-    app.delete('/blogs/view/:id', function (req, res) {
-        console.log("Delete Blog");
-        Blog.findByIdAndRemove(req.params.id).then((blog) => {
-            res.redirect('/');
+    app.post('/rides/view', (req, res) => {
+        Ride.create(req.body).then((ride) => {
+            console.log(ride);
+            res.redirect(`/rides/view/${ride._id}`);
         }).catch((err) => {
             console.log(err.message);
         })
     })
 
 
-    app.get('/blogs/view/:id/edit', (req, res) => {
-        Blog.findById(req.params.id, function(err, blog) {
-            res.render('blogs-edit', { blog: blog });
-        })
-    })
-
-
-    app.post('/blogs/view', (req, res) => {
-        Blog.create(req.body).then((blog) => {
-            console.log(blog);
-            res.redirect(`/blogs/view/${blog._id}`);
-        }).catch((err) => {
-            console.log(err.message);
-        })
-    })
-
-
-    app.put('/blogs/view/:id', (req, res) => {
-        Blog.findByIdAndUpdate(req.params.id, req.body)
-        .then(blog => {
-            res.redirect(`/blogs/view/${blog._id}`)
+    app.put('/rides/view/:id', (req, res) => {
+        Ride.findByIdAndUpdate(req.params.id, req.body)
+        .then(ride => {
+            res.redirect(`/rides/view/${ride._id}`)
         })
         .catch(err => {
             console.log(err.message);
         })
     })
 
-    app.get('/blogs', (req, res) => {
-        res.render('blogs-index', {})
+    app.get('/rides', (req, res) => {
+        res.render('rides-index', {})
     })
 
 
-    app.get('/blogs/new', (req, res) => {
-        res.render('blogs-new', {});
+    app.get('/rides/new', (req, res) => {
+        res.render('rides-new', {});
     })
 
+    // SIGN UP FORM
+    app.get('/sign-up', (req, res) => {
+        res.render('sign-up');
+    });
 
+    // Login form
+    app.get('/login', (req, res) =>{
+        res.render('login')
+    })
+
+    // SIGN UP POST
+    app.post('/sign-up', (req, res) => {
+        // Create User
+        const user = new User(req.body);
+
+        user.save().then((user) => {
+            res.redirect('/');
+        }).catch((err) => {
+            console.log(err.message);
+        });
+    });
 }
