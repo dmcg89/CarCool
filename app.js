@@ -1,6 +1,6 @@
 const methodOverride = require('method-override');
-// var cookieParser = require('cookie-parser')
-// const jwt = require('jsonwebtoken')
+var cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 const express = require('express');
 const app = express();
 var exphbs = require('express-handlebars');
@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 
 
 
-// app.use(cookieParser());
+app.use(cookieParser());
 
 app.use(methodOverride('_method'));
 
