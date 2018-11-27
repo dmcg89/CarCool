@@ -1,14 +1,14 @@
-const Ride = require('../models/model');
+const Rental = require('../models/rental');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 //index
 
-module.exports = function(app, Ride) {
+module.exports = function(app, Rental) {
     app.get('/', (request, response) => {
-        Ride.find()
-        .then(rides => {
-            response.render('rides-index', {rides: rides});
+        Rental.find()
+        .then(rentals => {
+            response.render('rentals-index', {rentals: rentals});
         })
         .catch(err => {
             console.log(err);
@@ -17,9 +17,9 @@ module.exports = function(app, Ride) {
 
     // show
 
-    app.get('/rides/view/:id', (req, res) => {
-        Ride.findById(req.params.id).then((ride) => {
-            res.render('rides-show', { ride: ride })
+    app.get('/rentals/view/:id', (req, res) => {
+        Rental.findById(req.params.id).then((rental) => {
+            res.render('rentals-show', { rental: rental })
         }).catch((err) => {
             console.log(err.message);
         })
@@ -27,49 +27,49 @@ module.exports = function(app, Ride) {
 
     // delete
 
-    app.delete('/rides/view/:id', function (req, res) {
-        console.log("Delete Ride");
-        Ride.findByIdAndRemove(req.params.id).then((ride) => {
+    app.delete('/rentals/view/:id', function (req, res) {
+        console.log("Delete Rental");
+        Rental.findByIdAndRemove(req.params.id).then((rental) => {
             res.redirect('/');
         }).catch((err) => {
             console.log(err.message);
         })
     })
     // edit page
-    app.get('/rides/view/:id/edit', (req, res) => {
-        Ride.findById(req.params.id, function(err, ride) {
-            res.render('rides-edit', { ride: ride });
+    app.get('/rentals/view/:id/edit', (req, res) => {
+        Rental.findById(req.params.id, function(err, rental) {
+            res.render('rentals-edit', { rental: rental });
         })
     })
 
 
-    app.post('/rides/view', (req, res) => {
-        Ride.create(req.body).then((ride) => {
-            console.log(ride);
-            res.redirect(`/rides/view/${ride._id}`);
+    app.post('/rentals/view', (req, res) => {
+        Rental.create(req.body).then((rental) => {
+            console.log(rental);
+            res.redirect(`/rentals/view/${rental._id}`);
         }).catch((err) => {
             console.log(err.message);
         })
     })
 
 
-    app.put('/rides/view/:id', (req, res) => {
-        Ride.findByIdAndUpdate(req.params.id, req.body)
-        .then(ride => {
-            res.redirect(`/rides/view/${ride._id}`)
+    app.put('/rentals/view/:id', (req, res) => {
+        Rental.findByIdAndUpdate(req.params.id, req.body)
+        .then(rental => {
+            res.redirect(`/rentals/view/${rental._id}`)
         })
         .catch(err => {
             console.log(err.message);
         })
     })
 
-    app.get('/rides', (req, res) => {
-        res.render('rides-index', {})
+    app.get('/rentals', (req, res) => {
+        res.render('rentals-index', {})
     })
 
 
-    app.get('/rides/new', (req, res) => {
-        res.render('rides-new', {});
+    app.get('/rentals/new', (req, res) => {
+        res.render('rentals-new', {});
     })
 
     // SIGN UP FORM
