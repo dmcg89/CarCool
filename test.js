@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('./app');
 const should = chai.should();
-const Rides = require('./models/model');
+const Ride = require('./models/ride');
 
 const sampleRide =     {
     "route": "route",
@@ -12,7 +12,7 @@ const sampleRide =     {
 
 chai.use(chaiHttp);
 
-describe('Rides', ()  => {
+describe('Ride', ()  => {
 
     after(() => {
         Ride.deleteMany({route: 'route'}).exec((err, rides) => {
@@ -44,7 +44,7 @@ describe('Rides', ()  => {
     });
     // TEST SHOW
     it('should show a SINGLE ride on /rides/<id> GET', (done) => {
-        var ride = new Rides(sampleRide);
+        var ride = new Ride(sampleRide);
         ride.save((err, data) => {
             chai.request(server)
             .get(`/rides/view/${ride._id}`)
@@ -57,7 +57,7 @@ describe('Rides', ()  => {
     });
     // TEST EDIT
     it('should edit a SINGLE ride on /rides/<id>/edit GET', (done) => {
-        var ride = new Rides(sampleRide);
+        var ride = new Ride(sampleRide);
         ride.save((err, data) => {
             chai.request(server)
             .get(`/rides/view/${ride._id}/edit`)

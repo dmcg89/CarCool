@@ -7,7 +7,7 @@ const app = express();
 var exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true}));
-const Ride = require('./models/model');
+const Ride = require('./models/ride');
 const port = process.env.PORT || 3000;
 
 
