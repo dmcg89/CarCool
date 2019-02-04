@@ -5,10 +5,13 @@ const jwt = require('jsonwebtoken');
 //index
 
 module.exports = function(app, Ride) {
-    app.get('/', (request, response) => {
+    app.get('/', (req, res) => {
+      var currentUser = req.user;
+      console.log("this ran");
+      console.log(currentUser);
         Ride.find()
         .then(rides => {
-            response.render('rides-index', {rides: rides});
+            res.render('rides-index', {rides: rides, currentUser});
         })
         .catch(err => {
             console.log(err);
@@ -94,7 +97,7 @@ module.exports = function(app, Ride) {
         const user = new User(req.body);
 
         user.save().then((user) => {
-          var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
+          var token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, { expiresIn: "60 days" });
           res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
           res.redirect('/');
         }).catch((err) => {
@@ -102,4 +105,40 @@ module.exports = function(app, Ride) {
           return res.status(400).send({ err: err });
         });
       });
+
+    // LOGIN
+    app.post("/login", (req, res) => {
+      console.log("this ran the login post")
+        const username = req.body.username;
+        const password = req.body.password;
+        console.log(username);
+        console.log(password);
+        // Find this user name
+        User.findOne({ username }, "username password")
+            .then(user => {
+                if (!user) {
+                    // User not found
+                    return res.status(401).send({ message: "Wrong Username or Password" });
+                }
+                // Check the password
+                user.comparePassword(password, (err, isMatch) => {
+                    if (!isMatch) {
+                        // Password does not match
+                        return res.status(401).send({ message: "Wrong Username or password" });
+                    }
+
+                    // Create a token
+                    console.log(user)
+                    const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
+                        expiresIn: "60 days"
+                    });
+                    // Set a cookie and redirect to root
+                    res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
+                    res.redirect("/");
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    });
 }
